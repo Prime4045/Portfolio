@@ -122,24 +122,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendButton = document.querySelector('.send-button');
 
     contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Prevent default form submission
-
+        e.preventDefault();
         const name = contactForm.querySelector('input[type="text"]').value.trim();
         const email = contactForm.querySelector('input[type="email"]').value.trim();
         const message = contactForm.querySelector('textarea').value.trim();
 
-        // Basic validation
         if (!name || !email || !message) {
             alert('Please fill in all fields.');
             return;
         }
 
-        // Disable button to prevent multiple submissions
         sendButton.disabled = true;
         sendButton.textContent = 'Sending...';
 
         try {
-            const response = await fetch('/send-email', { // Use relative URL
+            const response = await fetch('/send-email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -151,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 alert('Message sent successfully! I will get back to you soon.');
-                contactForm.reset(); // Clear the form
+                contactForm.reset();
             } else {
                 throw new Error(result.message || 'Failed to send message.');
             }
