@@ -1,4 +1,66 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Typewriter Effect
+    function initTypingEffect() {
+        const textElement = document.getElementById('typing-text');
+        const cursor = document.querySelector('.cursor');
+        const professions = [
+            "Full Stack Developer",
+            "MCA Student at Parul University",
+            "Web Designer",
+            "Backend Engineer"
+        ];
+
+        let professionIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 150;
+
+        function type() {
+            const currentText = professions[professionIndex];
+
+            if (isDeleting) {
+                textElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                textElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 150;
+            }
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typingSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                professionIndex = (professionIndex + 1) % professions.length;
+                typingSpeed = 500; // Pause before typing next
+            }
+
+            setTimeout(type, typingSpeed);
+        }
+
+        // Start typing effect
+        setTimeout(type, 1000);
+    }
+
+    // Smooth Scrolling for Navigation Links
+    const navLinks = document.querySelectorAll('.top-nav ul li a');
+    const navHeight = document.querySelector('.top-nav').offsetHeight || 60; // Approximate nav height
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            const targetId = link.getAttribute('href').substring(1); // Get the section ID (e.g., "home")
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                window.scrollTo({
+                    top: targetSection.offsetTop - navHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
     // Project Filtering
     const filters = document.querySelectorAll('.filter');
     const projects = document.querySelectorAll('.project-item');
@@ -100,4 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sendButton.textContent = 'Send Message';
         }
     });
+
+    // Initialize the typing effect
+    initTypingEffect();
 });
