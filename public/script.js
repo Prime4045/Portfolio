@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     top: targetSection.offsetTop - navHeight,
                     behavior: 'smooth'
                 });
+            } else if (targetId === 'projects') {
+                window.location.href = 'projects.html';
             }
         });
     });
@@ -157,6 +159,31 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             sendButton.disabled = false;
             sendButton.textContent = 'Send Message';
+        }
+    });
+
+    // Short project descriptions for each project
+    const projectDescriptions = {
+        "ai-blog": "AI-powered blog platform that generates, edits, and optimizes content for better engagement and SEO.",
+        "healthcare": "Book appointments, manage patient records, and doctor schedules securely in one healthcare app.",
+        "ecommerce": "Modern e-commerce solution with product catalog, cart, checkout, and payment integration.",
+        "trip-planner": "Plan trips with itinerary management, location search, and group collaboration features.",
+        "listeners": "Real-time audio streaming platform for music enthusiasts to share and discover new tracks.",
+        "restaurant-reservation": "Book tables, manage reservations, and view restaurant profiles with real-time availability.",
+        // Add more as needed
+    };
+
+    // Replace project-overlay paragraph with short description
+    document.querySelectorAll('.project-item').forEach(project => {
+        const key = project.getAttribute('data-project');
+        const overlay = project.querySelector('.project-overlay');
+        if (overlay) {
+            let descElem = overlay.querySelector('p');
+            if (!descElem) {
+                descElem = document.createElement('p');
+                overlay.insertBefore(descElem, overlay.querySelector('a'));
+            }
+            descElem.textContent = projectDescriptions[key] || "Project description coming soon.";
         }
     });
 
